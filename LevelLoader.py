@@ -8,7 +8,7 @@ from Lazer import Lazer
 from Constants import TILE_SIZE
 
 width = 24
-height = 24
+height = 18
 
 def makeCamera(data, i, col, row):
 	walls = [

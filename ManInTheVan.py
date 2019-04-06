@@ -13,7 +13,7 @@ from Menu import Menu
 from Game import Game
 
 WIDTH = 960
-HEIGHT = 960
+HEIGHT = 720
 
 pygame.mixer.init()
 pygame.font.init()
