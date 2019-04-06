@@ -49,13 +49,15 @@ while not done:
 			clickedOnObject = False
 			for object in cameras1.sprites() + robots1.sprites():
 				if object.rect.collidepoint(event.pos):
-					selectedRect = pygame.Rect(object.rect.x + object.selectOffset[0]/4, object.rect.y + object.selectOffset[1]/4, object.width, object.height)
+					selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
 					selected = object
 					clickedOnObject = True
 				if not clickedOnObject and selected:
 					selected = None
 
 	if selected:
+		selectedRect.x = selected.rect.x
+		selectedRect.y = selected.rect.y 
 		selected.update(keys_pressed, tilemap1)
 	
 	robber.move(robbermap1)
@@ -69,12 +71,12 @@ while not done:
 	floors1.draw(surface)
 	robots1.draw(surface)
 	robbers.draw(surface)
-	if selected:
-		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 0, 0, 100))
 	for object in cameras1.sprites():
 		pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(247, 238, 69,100))
 	cameras1.draw(surface)
 	walls1.draw(surface)
+	if selected:
+		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 0, 0, 100))
 	pygame.display.update()
 
 pygame.quit()

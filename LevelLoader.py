@@ -4,6 +4,7 @@ with contextlib.redirect_stdout(None): import pygame
 from Tiles import WallTile, FloorTile
 from Camera import Camera
 from Robot import Robot
+from Constants import TILE_SIZE
 
 width = 24
 height = 24
@@ -35,12 +36,12 @@ def makeCamera(data, i, col, row):
 	elif(walls[5] and not walls[1] and not walls[7]):
 		rotation = 180
 		range = 180
-		offset = (50, 0)
+		offset = (TILE_SIZE, 0)
 		multiplier = -1
 	elif(walls[7] and not walls[3] and not walls[5]):
 		rotation = 270
 		range = 180
-		offset = (0, 50)
+		offset = (0, TILE_SIZE)
 		multiplier = -1
 
 	if(walls[0] and not walls[1] and not walls[3]):
@@ -49,17 +50,17 @@ def makeCamera(data, i, col, row):
 	elif(walls[2] and not walls[1] and not walls[5]):
 		rotation = 135
 		range = 270
-		offset = (50, 0)
+		offset = (TILE_SIZE, 0)
 	elif(walls[6] and not walls[3] and not walls[7]):
 		rotation = 315
 		range = 270
-		offset = (0, 50)
+		offset = (0, TILE_SIZE)
 		multiplier = -1
 	elif(walls[8] and not walls[5] and not walls[7]):
 		multiplier = -1
 		rotation = 225
 		range = 270
-		offset = (50, 50)
+		offset = (TILE_SIZE, TILE_SIZE)
 
 	if(walls[0] and walls[1] and walls[3]):
 		rotation = 45
@@ -67,19 +68,19 @@ def makeCamera(data, i, col, row):
 	elif(walls[2] and walls[1] and walls[5]):
 		rotation = 135
 		range = 90
-		offset = (50, 0)
+		offset = (TILE_SIZE, 0)
 	elif(walls[6] and walls[3] and walls[7]):
 		rotation = 315
 		range = 90
-		offset = (0, 50)
+		offset = (0, TILE_SIZE)
 		multiplier = -1
 	elif(walls[8] and walls[5] and walls[7]):
 		rotation = 225
 		range = 90
-		offset = (50, 50)
+		offset = (TILE_SIZE, TILE_SIZE)
 		multiplier = -1
 
-	return Camera((col * 50 + offset[0], row * 50 + offset[1]), rotation, rotation - range/2, rotation + range/2, multiplier, offset)
+	return Camera((col * TILE_SIZE + offset[0], row * TILE_SIZE + offset[1]), rotation, rotation - range/2, rotation + range/2, multiplier, offset)
 
 def loadLevel(levelText):
 	file = open(levelText, "r" )
@@ -112,20 +113,19 @@ def loadLevel(levelText):
 		if(data[i][0] == 'C'):
 			cameras.add(makeCamera(data, i, col, row))
 		if(data[i][0] == 'M'):
-			robot = Robot()
-			robot.rect.x = col * 50
-			robot.rect.y = row * 50
+			robot = Robot((col * TILE_SIZE, row * TILE_SIZE))
 			robots.add(robot)
+			pass
 
 		if data[i][1] == 'W':
 			tile = WallTile()
-			tile.rect.x = col * 50
-			tile.rect.y = row * 50
+			tile.rect.x = col * TILE_SIZE
+			tile.rect.y = row * TILE_SIZE
 			walls.add(tile)
 		elif data[i][1] == 'F':
 			tile = FloorTile()
-			tile.rect.x = col * 50
-			tile.rect.y = row * 50
+			tile.rect.x = col * TILE_SIZE
+			tile.rect.y = row * TILE_SIZE
 			floors.add(tile)
 
 	robbermap[ry][rx] = '_'

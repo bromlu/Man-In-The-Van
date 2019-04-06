@@ -1,9 +1,10 @@
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
+from Constants import TILE_SIZE
 
 color = pygame.Color(0, 0, 0, 255)
-width = 50
-height = 50
+width = TILE_SIZE
+height = TILE_SIZE
 scale = 4
 
 class Robber(pygame.sprite.Sprite):
@@ -68,29 +69,29 @@ class Robber(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.x = x
 		self.y = y
-		self.nextx = x * 50
-		self.nexty = y * 50
-		self.rect.x = x * 50
-		self.rect.y = y * 50
+		self.nextx = x * TILE_SIZE
+		self.nexty = y * TILE_SIZE
+		self.rect.x = x * TILE_SIZE
+		self.rect.y = y * TILE_SIZE
 
 	def move(self, robbermap):
 		if self.rect.x == self.nextx and self.rect.y == self.nexty:
-			x = int(self.nextx / 50)
-			y = int(self.nexty / 50)
+			x = int(self.nextx / TILE_SIZE)
+			y = int(self.nexty / TILE_SIZE)
 			robbermap[y][x] = '_'
 
 			if robbermap[y + 1][x] == 'R':
-				self.nextx = x * 50
-				self.nexty = (y + 1) * 50
+				self.nextx = x * TILE_SIZE
+				self.nexty = (y + 1) * TILE_SIZE
 			elif robbermap[y][x + 1] == 'R':
-				self.nextx = (x + 1) * 50
-				self.nexty = y * 50
+				self.nextx = (x + 1) * TILE_SIZE
+				self.nexty = y * TILE_SIZE
 			elif robbermap[y - 1][x] == 'R':
-				self.nextx = x * 50
-				self.nexty = (y - 1) * 50
+				self.nextx = x * TILE_SIZE
+				self.nexty = (y - 1) * TILE_SIZE
 			elif robbermap[y][x - 1] == 'R':
-				self.nextx = (x - 1) * 50
-				self.nexty = y * 50
+				self.nextx = (x - 1) * TILE_SIZE
+				self.nexty = y * TILE_SIZE
 		else:
 			if self.nextx > self.rect.x:
 				self.rect.x += 5
