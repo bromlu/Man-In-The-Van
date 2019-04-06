@@ -42,11 +42,11 @@ class Robber(pygame.sprite.Sprite):
 		self.animationIndex = 0
 		self.animationSpeed = 1.0/10.0
 		self.last = 0
-		self.speed = 1
+		self.speed = 12
 
 		self.rect = self.image.get_rect()
 		self.x = x
-		self.y = y
+		self.y = y 
 		self.nextx = x * TILE_SIZE
 		self.nexty = y * TILE_SIZE
 		self.rect.x = x * TILE_SIZE

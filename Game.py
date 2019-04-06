@@ -59,6 +59,7 @@ class Game():
 				pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(89, 211, 255, 50))
 			else:
 				pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(180, 0, 0, 50))
+				self.reset()
 		self.cameras.draw(surface)
 		self.walls.draw(surface)
 		
@@ -66,7 +67,10 @@ class Game():
 			pygame.gfxdraw.rectangle(screen, self.selectedRect, pygame.Color(255, 100, 16, 100))
 
 		if pygame.sprite.groupcollide(self.robbers, self.lazers, False, False):
-			print("KILLED")
+			self.reset()
+
+		if pygame.sprite.groupcollide(self.robbers, self.robots, False, False):
+			self.reset()
 		# self.drawDialogBox(screen, "Hey there! imani how are you doing today are you enjoying gamejam? I sure am i miss tim though ey there! imani how are you doing today are you enjoying gamejam? I sure am i miss tim though", 200, 200)
 		
 		for lazer in self.lazers.sprites():
@@ -78,6 +82,14 @@ class Game():
 		
 		for robot in self.robots.sprites():
 			robot.update1()
+
+	def reset(self):
+		self.robber.rect.x = self.rx * TILE_SIZE
+		self.robber.rect.y = self.ry * TILE_SIZE
+		for robot in self.robots:
+			robot.reset()
+		for camera in self.cameras:
+			camera.reset()
 
 	def drawDialogBox(self, screen, string, x, y):
 		size = 24
