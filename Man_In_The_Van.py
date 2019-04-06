@@ -22,7 +22,7 @@ pygame.display.set_caption('Man In The Van')
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.display.get_surface()
 
-rx, ry, robbermap1, tilemap1, spritemap1, objectmap1 = loadLevel("level1.txt")
+rx, ry, robbermap1, tilemap1, cameras1, robots1, walls1, floors1 = loadLevel("level1.txt")
 
 robber = Robber(rx, ry)
 robbers = pygame.sprite.Group()
@@ -47,7 +47,7 @@ while not done:
 			keys_pressed.remove(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			clickedOnObject = False
-			for object in objectmap1.sprites():
+			for object in cameras1.sprites() + robots1.sprites():
 				if object.rect.collidepoint(event.pos):
 					selectedRect = pygame.Rect(object.rect.x + object.selectOffset[0]/4, object.rect.y + object.selectOffset[1]/4, object.width, object.height)
 					selected = object
@@ -60,21 +60,21 @@ while not done:
 	
 	robber.move(robbermap1)
 
-	for object in objectmap1.sprites():
-		if hasattr(object, 'isSeen'):
-			if(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2))):
-				print("SEEN!")
+	for object in cameras1.sprites():
+		if(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2))):
+			print("SEEN!")
 
 	# update and draw
 	surface.fill((0, 0, 0))
-	spritemap1.draw(surface)
-	objectmap1.draw(surface)
+	floors1.draw(surface)
+	robots1.draw(surface)
 	robbers.draw(surface)
 	if selected:
 		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 0, 0, 100))
-	for object in objectmap1.sprites():
-		if hasattr(object, 'getLightCone'):
-			pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(247, 238, 69,100))
+	for object in cameras1.sprites():
+		pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(247, 238, 69,100))
+	cameras1.draw(surface)
+	walls1.draw(surface)
 	pygame.display.update()
 
 pygame.quit()

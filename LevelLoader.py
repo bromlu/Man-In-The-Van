@@ -90,8 +90,10 @@ def loadLevel(levelText):
 	rx = 0
 	ry = 0
 	tilemap = []
-	spritemap = pygame.sprite.Group()
-	objectmap = pygame.sprite.Group()
+	floors = pygame.sprite.Group()
+	cameras = pygame.sprite.Group()
+	robots = pygame.sprite.Group()
+	walls = pygame.sprite.Group()
 	
 	tile = None
 	for i in range(len(data) - 1):
@@ -108,21 +110,24 @@ def loadLevel(levelText):
 		tilemap[row].append(data[i][1])
 
 		if(data[i][0] == 'C'):
-			objectmap.add(makeCamera(data, i, col, row))
+			cameras.add(makeCamera(data, i, col, row))
 		if(data[i][0] == 'M'):
 			robot = Robot()
 			robot.rect.x = col * 50
 			robot.rect.y = row * 50
-			objectmap.add(robot)
+			robots.add(robot)
 
 		if data[i][1] == 'W':
 			tile = WallTile()
+			tile.rect.x = col * 50
+			tile.rect.y = row * 50
+			walls.add(tile)
 		elif data[i][1] == 'F':
 			tile = FloorTile()
-		tile.rect.x = col * 50
-		tile.rect.y = row * 50
-		spritemap.add(tile)
+			tile.rect.x = col * 50
+			tile.rect.y = row * 50
+			floors.add(tile)
 
 	robbermap[ry][rx] = '_'
 
-	return rx, ry, robbermap, tilemap, spritemap, objectmap
+	return rx, ry, robbermap, tilemap, cameras, robots, walls, floors

@@ -26,11 +26,8 @@ class Camera(pygame.sprite.Sprite):
         self.rotate()
 
     def rotate(self):
-        # Rotate the image.
         self.image = pygame.transform.rotozoom(self.orig_image, -self.angle, 1)
-        # Rotate the offset vector.
         offset_rotated = self.offset.rotate(self.angle)
-        # Create a new rect with the center of the sprite + the offset.
         self.rect = self.image.get_rect(center=self.pos+offset_rotated)
 
     def update(self, keys_pressed, tilemap):
@@ -41,7 +38,6 @@ class Camera(pygame.sprite.Sprite):
             if self.angle < self.minRotation:
                 self.angle = self.minRotation
             self.rotate()
-            # self.image = self.rot_center(self.original_image, self.angle)
         if pygame.K_RIGHT in keys_pressed:
             self.angle -= 5 * self.multiplier
             if self.angle > self.maxRotation:
@@ -49,7 +45,6 @@ class Camera(pygame.sprite.Sprite):
             if self.angle < self.minRotation:
                 self.angle = self.minRotation
             self.rotate()
-            # self.image = self.rot_center(self.original_image, self.angle)
 
     def getLightCone(self, segments=6):
         fov, dist = self.fov, self.dist
@@ -71,5 +66,4 @@ class Camera(pygame.sprite.Sprite):
         if rang > 180: rang = abs(360 - rang)
         in_fov = rang < self.fov / 2
         close = d2 < self.dist * self.dist
-        #print(rang, d2, in_fov, close)
         return in_fov and close
