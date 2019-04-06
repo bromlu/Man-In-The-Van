@@ -3,21 +3,40 @@ with contextlib.redirect_stdout(None): import pygame
 
 from Tiles import WallTile, FloorTile
 
-def loadLevel(levelText):
-    file = open(levelText, "r" )
-    data = file.read().replace("\n", "").replace("  ", " ").split(" ")
-    file.close()
-    map = pygame.sprite.Group()
-    tile = None
-    for i in range(len(data)):
-        print(data[i])
-        if data[i] == "W" or data[i] == "CW":
-            tile = WallTile()
-        if data[i] == "F" or data[i] == "RF":
-            tile = FloorTile()
-        print(tile)
-        tile.rect.x = (i % 24) * 10
-        tile.rect.y = int(i / 24) * 10
-        map.add(tile)
+width = 24
+height = 24
 
-    return map
+def loadLevel(levelText):
+	file = open(levelText, "r" )
+	data = file.read().replace("\n", " ").split(" ")
+	file.close()
+
+	robbermap = []
+	rx = 0;
+	ry = 0;
+	tilemap = []
+	spritemap = pygame.sprite.Group()
+	
+	tile = None
+	for i in range(len(data) - 1):
+		col = i % width
+		row = int(i / width);
+		if(row == 0):
+			robbermap.append([]);
+			tilemap.append([]);
+
+		robbermap[row].append(data[i][0])
+		if(data[i][0] == 'S'):
+			rx = col
+			ry = row
+		tilemap[row].append(data[i][1])
+
+		if data[i][1] == 'W':
+			tile = WallTile()
+		elif data[i][1] == 'F':
+			tile = FloorTile()
+		tile.rect.x = col * 10
+		tile.rect.y = row * 10
+		spritemap.add(tile)
+
+	return rx, ry, robbermap, tilemap, spritemap

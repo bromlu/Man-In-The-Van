@@ -22,41 +22,37 @@ surface = pygame.display.get_surface()
 
 
 
+rx, ry, robbermap1, tilemap1, spritemap1 = loadLevel("level1.txt")
 
-last = 0
-robber = Robber(pygame.Color(255, 255, 255, 0), 20, 20)
-robber.rect.x = 10
-robber.rect.y = 10
+robber = Robber(rx, ry)
 robbers = pygame.sprite.Group()
 robbers.add(robber)
 
-level1 = loadLevel("level1.txt")
 
 
-
-
+last = 0
 keys_pressed = set()
 done = False
 while not done:
-    # delay until 1/60th of second
-    while time.time() - last < 1/60: pass
-    last = time.time()
+	# delay until 1/60th of second
+	while time.time() - last < 1/60: pass
+	last = time.time()
 
 
-    # pump events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        if event.type == pygame.KEYDOWN:
-            keys_pressed.add(event.key)
-        if event.type == pygame.KEYUP:
-            keys_pressed.remove(event.key)
+	# pump events
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			done = True
+		if event.type == pygame.KEYDOWN:
+			keys_pressed.add(event.key)
+		if event.type == pygame.KEYUP:
+			keys_pressed.remove(event.key)
 
-    # update and draw
-    surface.fill((0, 0, 0))
-    robbers.draw(surface)
-    level1.draw(surface)
-    pygame.display.update()
+	# update and draw
+	surface.fill((0, 0, 0))
+	spritemap1.draw(surface)
+	robbers.draw(surface)
+	pygame.display.update()
 
 pygame.quit()
 sys.exit()
