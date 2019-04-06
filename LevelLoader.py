@@ -4,6 +4,7 @@ with contextlib.redirect_stdout(None): import pygame
 from Tiles import WallTile, FloorTile
 from Camera import Camera
 from Robot import Robot
+from Lazer import Lazer
 from Constants import TILE_SIZE
 
 width = 24
@@ -95,6 +96,7 @@ def loadLevel(levelText):
 	cameras = pygame.sprite.Group()
 	robots = pygame.sprite.Group()
 	walls = pygame.sprite.Group()
+	lazers = pygame.sprite.Group()
 	
 	tile = None
 	for i in range(len(data) - 1):
@@ -117,7 +119,25 @@ def loadLevel(levelText):
 			robots.add(robot)
 			pass
 
-		tileNum = int(data[i][1])
+		if(data[i][0] == 'L'):
+			foundPair = False
+			for x in range(i+width, len(data) - 1, width):
+				print(data[x])
+				if data[x] and data[x][0] == 'L':
+					foundPair = True
+					lazer = Lazer((col * TILE_SIZE, row * TILE_SIZE), TILE_SIZE/8, abs(row*TILE_SIZE - int(x/width) * TILE_SIZE) + TILE_SIZE)
+					lazers.add(lazer)
+					data[x][0] == '_'
+					break
+			if not foundPair:
+				for x in range(i+1, (row+1) * width, 1):
+					if data[x] and data[x][0] == 'L':
+						lazer = Lazer((col * TILE_SIZE, row * TILE_SIZE), abs(col*TILE_SIZE - int(x % width) * TILE_SIZE) + TILE_SIZE, TILE_SIZE/8)
+						lazers.add(lazer)
+						data[x][0] == '_'
+						break
+
+		tileNum = int(data[i][1:])
 		if tileNum % 2 == 1:
 			tile = WallTile((col * TILE_SIZE, row * TILE_SIZE), tileNum)
 			walls.add(tile)
@@ -127,4 +147,4 @@ def loadLevel(levelText):
 
 	robbermap[ry][rx] = '_'
 
-	return rx, ry, robbermap, tilemap, cameras, robots, walls, floors
+	return rx, ry, robbermap, tilemap, cameras, robots, walls, floors, lazers
