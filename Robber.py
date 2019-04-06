@@ -1,6 +1,7 @@
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
 from Constants import TILE_SIZE
+import time
 
 color = pygame.Color(0, 0, 0, 255)
 width = TILE_SIZE
@@ -12,59 +13,36 @@ class Robber(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 
-		self.spriteSheet = pygame.image.load("assets/ninja.png").convert_alpha()
-		self.spriteSheet = pygame.transform.scale(self.spriteSheet, (24*8*scale, 32*4*scale))
+		self.spriteSheetDown = pygame.image.load("assets/ninja-down.png").convert_alpha()
+		self.spriteSheetLeft = pygame.image.load("assets/ninja-left.png").convert_alpha()
+		self.spriteSheetRight = pygame.image.load("assets/ninja-right.png").convert_alpha()
+		self.spriteSheetUp = pygame.image.load("assets/ninja-up.png").convert_alpha()
+		self.spriteSheetDown = pygame.transform.scale(self.spriteSheetDown, (24*8*scale, 32*scale))
+		self.spriteSheetLeft = pygame.transform.scale(self.spriteSheetLeft, (24*8*scale, 32*scale))
+		self.spriteSheetRight = pygame.transform.scale(self.spriteSheetRight, (24*8*scale, 32*scale))
+		self.spriteSheetUp = pygame.transform.scale(self.spriteSheetUp, (24*8*scale, 32*scale))
 
 		self.image = pygame.Surface((24 * scale, 32 * scale)).convert()
 		self.image.fill((100,100,100))
 		self.image.set_colorkey((100, 100, 100))
-		self.image.blit(self.spriteSheet, (0,0), (24 * scale,32 * scale,24 * scale,32 * scale))
+		self.image.blit(self.spriteSheetRight, (0,0), (24 * scale,32 * scale,24 * scale,32 * scale))
 
-		self.downAnimations = [
-			(24 * scale,64 * scale,24 * scale,32 * scale),
-			(48 * scale,64 * scale,24 * scale,32 * scale),
-			(72 * scale,64 * scale,24 * scale,32 * scale),
-			(96 * scale,64 * scale,24 * scale,32 * scale),
-			(120 * scale,64 * scale,24 * scale,32 * scale),
-			(144 * scale,64 * scale,24 * scale,32 * scale),
-			(168 * scale,64 * scale,24 * scale,32 * scale),
-			(192 * scale,64 * scale,24 * scale,32 * scale),
-		]
 
-		self.rightAnimations = [
-			(24 * scale,32 * scale,24 * scale,32 * scale),
-			(48 * scale,32 * scale,24 * scale,32 * scale),
-			(72 * scale,32 * scale,24 * scale,32 * scale),
-			(96 * scale,32 * scale,24 * scale,32 * scale),
-			(120 * scale,32 * scale,24 * scale,32 * scale),
-			(144 * scale,32 * scale,24 * scale,32 * scale),
-			(168 * scale,32 * scale,24 * scale,32 * scale),
-			(192 * scale,32 * scale,24 * scale,32 * scale),
-		]
-
-		self.upAnimations = [
-			(24 * scale,0 * scale,24 * scale,32 * scale),
-			(48 * scale,0 * scale,24 * scale,32 * scale),
-			(72 * scale,0 * scale,24 * scale,32 * scale),
-			(96 * scale,0 * scale,24 * scale,32 * scale),
-			(120 * scale,0 * scale,24 * scale,32 * scale),
-			(144 * scale,0 * scale,24 * scale,32 * scale),
-			(168 * scale,0 * scale,24 * scale,32 * scale),
-			(192 * scale,0 * scale,24 * scale,32 * scale),
-		]
-
-		self.leftAnimations = [
-			(24 * scale,96 * scale,24 * scale,32 * scale),
-			(48 * scale,96 * scale,24 * scale,32 * scale),
-			(72 * scale,96 * scale,24 * scale,32 * scale),
-			(96 * scale,96 * scale,24 * scale,32 * scale),
-			(120 * scale,96 * scale,24 * scale,32 * scale),
-			(144 * scale,96 * scale,24 * scale,32 * scale),
-			(168 * scale,96 * scale,24 * scale,32 * scale),
-			(192 * scale,96 * scale,24 * scale,32 * scale),
+		self.animations = [
+			(0 * scale, 0, 24 * scale, 32 * scale),
+			(24 * scale, 0, 24 * scale, 32 * scale),
+			(48 * scale, 0, 24 * scale, 32 * scale),
+			(72 * scale, 0, 24 * scale, 32 * scale),
+			(96 * scale, 0, 24 * scale, 32 * scale),
+			(120 * scale, 0, 24 * scale, 32 * scale),
+			(144 * scale, 0, 24 * scale, 32 * scale),
+			(168 * scale, 0, 24 * scale, 32 * scale),
 		]
 
 		self.animationIndex = 0
+		self.animationSpeed = 1.0/10.0
+		self.last = 0
+		self.speed = 1
 
 		self.rect = self.image.get_rect()
 		self.x = x
@@ -95,25 +73,46 @@ class Robber(pygame.sprite.Sprite):
 				self.nexty = y * TILE_SIZE
 		else:
 			if self.nextx > self.rect.x:
-				self.rect.x += 5
+				self.rect.x += self.speed
 				self.walkRight()
 			elif self.nextx < self.rect.x:
-				self.rect.x -= 5
-
+				self.rect.x -= self.speed
+				self.walkLeft()
 			if self.nexty > self.rect.y:
-				self.rect.y += 5
+				self.rect.y += self.speed
 				self.walkDown()
 			elif self.nexty < self.rect.y:
-				self.rect.y -= 5
+				self.rect.y -= self.speed
+				self.walkUp()
 
 	def walkRight(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
-		self.image.blit(self.spriteSheet, (0,0), self.rightAnimations[self.animationIndex])
+		self.image.blit(self.spriteSheetRight, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
 		self.animationIndex = self.animationIndex % 7
 
 	def walkDown(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
-		self.image.blit(self.spriteSheet, (0,0), self.downAnimations[self.animationIndex])
+		self.image.blit(self.spriteSheetDown, (0,0), self.animations[self.animationIndex])
+		self.animationIndex += 1
+		self.animationIndex = self.animationIndex % 7
+
+	def walkLeft(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
+		self.image.fill((100,100,100))
+		self.image.blit(self.spriteSheetLeft, (0,0), self.animations[self.animationIndex])
+		self.animationIndex += 1
+		self.animationIndex = self.animationIndex % 7
+
+	def walkUp(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
+		self.image.fill((100,100,100))
+		self.image.blit(self.spriteSheetUp, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
 		self.animationIndex = self.animationIndex % 7
