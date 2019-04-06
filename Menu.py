@@ -22,15 +22,17 @@ class Menu():
 		self.paused = False
 
 	def updateSelected(self, event):
-#		clickedOnObject = False
-#		for object in self.cameras.sprites() + self.robots.sprites():
-#			if object.rect.collidepoint(event.pos):
-#				self.selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
-#				self.selected = object
-#				clickedOnObject = True
-#			if not clickedOnObject and self.selected:
-#				self.selected = True
-		pass
+		if event.type == pygame.MOUSEMOTION:
+			for i in range(len(options)):
+				if cxgetRect(options[i], 50, 500 + 80 * i).collidepoint(event.pos):
+					self.current = i
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			for i in range(len(options)):
+				if cxgetRect(options[i], 55, 500 + 80 * i).collidepoint(event.pos):
+					return i
+		return -2
+
+			
 
 	def update(self, keys_pressed):
 		if pygame.K_RETURN in keys_pressed:

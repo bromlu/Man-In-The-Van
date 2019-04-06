@@ -26,14 +26,16 @@ class Game():
 		self.selectedRect = None
 
 	def updateSelected(self, event):
-		clickedOnObject = False
-		for object in self.cameras.sprites() + self.robots.sprites():
-			if object.rect.collidepoint(event.pos):
-				self.selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
-				self.selected = object
-				clickedOnObject = True
-			if not clickedOnObject and self.selected:
-				self.selected = None
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			clickedOnObject = False
+			for object in self.cameras.sprites() + self.robots.sprites():
+				if object.rect.collidepoint(event.pos):
+					self.selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
+					self.selected = object
+					clickedOnObject = True
+				if not clickedOnObject and self.selected:
+					self.selected = None
+		return -2
 
 	def update(self, keys_pressed):
 		if self.selected:

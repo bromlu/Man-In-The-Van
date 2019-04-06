@@ -36,6 +36,12 @@ def str_draw(screen, font_surf, x, y, code):
 		font_rect.topright = (x, y)
 	screen.blit(font_surf, font_rect)
 
+def cxgetRect(s, size, y):
+	font_surf = str_get(s, size, pygame.Color(255, 255, 255, 255))
+	font_rect = font_surf.get_rect()
+	font_rect.center = (480, y)
+	return font_rect
+
 def cxprint(screen, surface, s, size, color, y):
 	font_surf = str_get(s, size, color)
 	str_draw(screen, font_surf, surface.get_width() / 2, y, 'cx')

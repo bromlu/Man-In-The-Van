@@ -29,6 +29,7 @@ done = False
 level = Menu()
 
 while not done:
+	state = -2
 	# delay until 1/60th of second
 	while time.time() - last < 1/60: pass
 	last = time.time()
@@ -41,17 +42,20 @@ while not done:
 			keys_pressed.add(event.key)
 		if event.type == pygame.KEYUP:
 			keys_pressed.remove(event.key)
+		if event.type == pygame.MOUSEMOTION:
+			state = level.updateSelected(event)
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			if not level is None:
-				level.updateSelected(event)
-
-	state = level.update(keys_pressed)
+			state = level.updateSelected(event)
+	
+	if state == -2:
+		state = level.update(keys_pressed)
 	if state == -1:
 		level = Menu()
 	elif state == 0:
 		level = Game("level1.txt")
 	elif state == 1:
 		done = True
+	
 
 	surface.fill((0, 0, 0))
 	level.draw(screen, surface)
