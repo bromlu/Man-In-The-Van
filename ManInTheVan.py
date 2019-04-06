@@ -49,7 +49,7 @@ while not done:
 	if state == -1:
 		level = Menu()
 	elif state == 0:
-		level = Game("level1.txt")
+		level = Game("level5.txt")
 	elif state == 1:
 		done = True
 
