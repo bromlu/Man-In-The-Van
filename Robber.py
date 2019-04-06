@@ -4,22 +4,67 @@ with contextlib.redirect_stdout(None): import pygame
 color = pygame.Color(0, 0, 0, 255)
 width = 50
 height = 50
+scale = 4
 
 class Robber(pygame.sprite.Sprite):
 
-	# Constructor. Pass in the color of the block,
-	# and its x and y position
 	def __init__(self, x, y):
-		# Call the parent class (Sprite) constructor
 		pygame.sprite.Sprite.__init__(self)
 
-		# Create an image of the block, and fill it with a color.
-		# This could also be an image loaded from the disk.
-		self.image = pygame.Surface([width, height])
-		self.image.fill(color)
+		self.spriteSheet = pygame.image.load("assets/ninja.png").convert_alpha()
+		self.spriteSheet = pygame.transform.scale(self.spriteSheet, (24*8*scale, 32*4*scale))
 
-		# Fetch the rectangle object that has the dimensions of the image
-		# Update the position of this object by setting the values of rect.x and rect.y
+		self.image = pygame.Surface((24 * scale, 32 * scale)).convert()
+		self.image.fill((100,100,100))
+		self.image.set_colorkey((100, 100, 100))
+		self.image.blit(self.spriteSheet, (0,0), (24 * scale,32 * scale,24 * scale,32 * scale))
+
+		self.downAnimations = [
+			(24 * scale,64 * scale,24 * scale,32 * scale),
+			(48 * scale,64 * scale,24 * scale,32 * scale),
+			(72 * scale,64 * scale,24 * scale,32 * scale),
+			(96 * scale,64 * scale,24 * scale,32 * scale),
+			(120 * scale,64 * scale,24 * scale,32 * scale),
+			(144 * scale,64 * scale,24 * scale,32 * scale),
+			(168 * scale,64 * scale,24 * scale,32 * scale),
+			(192 * scale,64 * scale,24 * scale,32 * scale),
+		]
+
+		self.rightAnimations = [
+			(24 * scale,32 * scale,24 * scale,32 * scale),
+			(48 * scale,32 * scale,24 * scale,32 * scale),
+			(72 * scale,32 * scale,24 * scale,32 * scale),
+			(96 * scale,32 * scale,24 * scale,32 * scale),
+			(120 * scale,32 * scale,24 * scale,32 * scale),
+			(144 * scale,32 * scale,24 * scale,32 * scale),
+			(168 * scale,32 * scale,24 * scale,32 * scale),
+			(192 * scale,32 * scale,24 * scale,32 * scale),
+		]
+
+		self.upAnimations = [
+			(24 * scale,0 * scale,24 * scale,32 * scale),
+			(48 * scale,0 * scale,24 * scale,32 * scale),
+			(72 * scale,0 * scale,24 * scale,32 * scale),
+			(96 * scale,0 * scale,24 * scale,32 * scale),
+			(120 * scale,0 * scale,24 * scale,32 * scale),
+			(144 * scale,0 * scale,24 * scale,32 * scale),
+			(168 * scale,0 * scale,24 * scale,32 * scale),
+			(192 * scale,0 * scale,24 * scale,32 * scale),
+		]
+
+		self.leftAnimations = [
+			(24 * scale,96 * scale,24 * scale,32 * scale),
+			(48 * scale,96 * scale,24 * scale,32 * scale),
+			(72 * scale,96 * scale,24 * scale,32 * scale),
+			(96 * scale,96 * scale,24 * scale,32 * scale),
+			(120 * scale,96 * scale,24 * scale,32 * scale),
+			(144 * scale,96 * scale,24 * scale,32 * scale),
+			(168 * scale,96 * scale,24 * scale,32 * scale),
+			(192 * scale,96 * scale,24 * scale,32 * scale),
+		]
+
+		self.animationIndex = 0
+
 		self.rect = self.image.get_rect()
 		self.x = x
 		self.y = y
@@ -48,15 +93,25 @@ class Robber(pygame.sprite.Sprite):
 				self.nexty = y * 50
 		else:
 			if self.nextx > self.rect.x:
-				self.rect.x += 1
+				self.rect.x += 5
+				self.walkRight()
 			elif self.nextx < self.rect.x:
-				self.rect.x -= 1
+				self.rect.x -= 5
 
 			if self.nexty > self.rect.y:
-				self.rect.y += 1
+				self.rect.y += 5
+				self.walkDown()
 			elif self.nexty < self.rect.y:
-				self.rect.y -= 1
+				self.rect.y -= 5
 
-	def getNext(self, robbermap):
-		return 50, 50
+	def walkRight(self):
+		self.image.fill((100,100,100))
+		self.image.blit(self.spriteSheet, (0,0), self.rightAnimations[self.animationIndex])
+		self.animationIndex += 1
+		self.animationIndex = self.animationIndex % 7
 
+	def walkDown(self):
+		self.image.fill((100,100,100))
+		self.image.blit(self.spriteSheet, (0,0), self.downAnimations[self.animationIndex])
+		self.animationIndex += 1
+		self.animationIndex = self.animationIndex % 7

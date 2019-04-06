@@ -62,7 +62,8 @@ while not done:
 
 	for object in objectmap1.sprites():
 		if hasattr(object, 'isSeen'):
-			print(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2)))
+			if(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2))):
+				print("SEEN!")
 
 	# update and draw
 	surface.fill((0, 0, 0))
