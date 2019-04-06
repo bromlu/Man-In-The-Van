@@ -39,4 +39,6 @@ def loadLevel(levelText):
 		tile.rect.y = row * 10
 		spritemap.add(tile)
 
+	robbermap[ry][rx] = '_'
+
 	return rx, ry, robbermap, tilemap, spritemap

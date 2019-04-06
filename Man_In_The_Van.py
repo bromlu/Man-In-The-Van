@@ -47,6 +47,8 @@ while not done:
 			keys_pressed.add(event.key)
 		if event.type == pygame.KEYUP:
 			keys_pressed.remove(event.key)
+	
+	robber.move(robbermap1)
 
 	# update and draw
 	surface.fill((0, 0, 0))
