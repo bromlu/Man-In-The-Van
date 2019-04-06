@@ -30,11 +30,11 @@ robber.rect.y = 10
 robbers = pygame.sprite.Group()
 robbers.add(robber)
 
-level1 = loadLevel("level1.txt")
+map, objects = loadLevel("level1.txt")
 
 
 
-
+selected = None
 keys_pressed = set()
 done = False
 while not done:
@@ -51,11 +51,23 @@ while not done:
             keys_pressed.add(event.key)
         if event.type == pygame.KEYUP:
             keys_pressed.remove(event.key)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            clickedOnObject = False
+            for camera in objects.sprites():
+                if camera.rect.collidepoint(event.pos):
+                    selected = camera
+                    clickedOnObject = True
+            if not clickedOnObject:
+                selected = None
+
+    if selected:
+        selected.update(keys_pressed)
 
     # update and draw
     surface.fill((0, 0, 0))
     robbers.draw(surface)
-    level1.draw(surface)
+    map.draw(surface)
+    objects.draw(surface)
     pygame.display.update()
 
 pygame.quit()
