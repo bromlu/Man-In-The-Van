@@ -117,7 +117,7 @@ def loadLevel(levelText):
 			robots.add(robot)
 			pass
 
-		tileNum = int(data[i][1])
+		tileNum = int(data[i][1:])
 		if tileNum % 2 == 1:
 			tile = WallTile((col * TILE_SIZE, row * TILE_SIZE), tileNum)
 			walls.add(tile)

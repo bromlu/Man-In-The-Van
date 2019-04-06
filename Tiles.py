@@ -16,7 +16,7 @@ def getFilename(tile):
 	elif tile == 8 or tile == 9:
 		filename = 'wood-tile.png'
 	elif tile == 10 or tile == 11:
-		filename = 'wood-tile2.png'
+		filename = 'wood-tile-2.png'
 
 	return 'assets/' + filename
 
