@@ -7,6 +7,7 @@ import time
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
 import pygame.gfxdraw
+import math
 
 from LevelLoader import loadLevel
 from Robber import Robber
@@ -59,9 +60,21 @@ while not done:
 		selectedRect.x = selected.rect.x
 		selectedRect.y = selected.rect.y 
 		selected.update(keys_pressed, tilemap1)
-	
-	robber.move(robbermap1)
 
+	if pygame.sprite.groupcollide(robbers, lazers1, False, False):
+		print("KILLED")
+	
+	for lazer in lazers1.sprites():
+		collidingRobots = pygame.sprite.spritecollide(lazer, robots1, False)
+		for robot in collidingRobots:
+			lazer.block(robot.pos)
+		if len(collidingRobots) == 0:
+			lazer.reset()
+	
+	for robot in robots1.sprites():
+		robot.update1()
+	robber.move(robbermap1)
+	
 	# update and draw
 	surface.fill((0, 0, 0))
 	floors1.draw(surface)

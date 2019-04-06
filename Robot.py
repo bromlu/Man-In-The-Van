@@ -27,24 +27,28 @@ class Robot(pygame.sprite.Sprite):
 		offset_rotated = self.offset.rotate(self.angle)
 		self.rect = self.image.get_rect(center=self.pos+offset_rotated)
 
+	def update1(self):
+		self.angle += 30
+		self.rotate()
+
 	def update(self, keys_pressed, tilemap):
 		if pygame.K_UP in keys_pressed and self.checkBounds(tilemap, self.rect.x, self.rect.y - self.speed):
-			self.angle = 0
+			self.angle = 0 - 30
 			self.rotate()
 			self.rect.y -= self.speed
 			self.pos.y -= self.speed
 		elif pygame.K_RIGHT in keys_pressed and self.checkBounds(tilemap, self.rect.x + self.speed, self.rect.y):
-			self.angle = 90
+			self.angle = 90 - 30
 			self.rotate()
 			self.rect.x += self.speed
 			self.pos.x += self.speed
 		elif pygame.K_DOWN in keys_pressed and self.checkBounds(tilemap, self.rect.x, self.rect.y + self.speed):
-			self.angle = 180
+			self.angle = 180 - 30
 			self.rotate()
 			self.rect.y += self.speed
 			self.pos.y += self.speed
 		elif pygame.K_LEFT in keys_pressed and self.checkBounds(tilemap, self.rect.x - self.speed, self.rect.y):
-			self.angle = 270
+			self.angle = 270 - 30
 			self.rotate()
 			self.rect.x -= self.speed
 			self.pos.x -= self.speed
@@ -58,7 +62,7 @@ class Robot(pygame.sprite.Sprite):
 		y3  = int((y + self.height)/TILE_SIZE)
 		x4 = int((x + self.width)/TILE_SIZE)
 		y4  = int((y + self.height)/TILE_SIZE)
-		if(tilemap[y1][x1] == 'W' or tilemap[y2][x2] == 'W' or tilemap[y3][x3] == 'W' or tilemap[y4][x4] == 'W'):
+		if(int(tilemap[y1][x1]) % 2 == 1 or int(tilemap[y2][x2]) % 2 == 1 or int(tilemap[y3][x3]) % 2 == 1 or int(tilemap[y4][x4]) % 2 == 1):
 			return False
 		return True
 
