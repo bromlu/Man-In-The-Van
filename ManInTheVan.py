@@ -12,8 +12,8 @@ from LevelLoader import loadLevel
 from Robber import Robber
 from Camera import Camera
 
-WIDTH = 1200
-HEIGHT = 800
+WIDTH = 960
+HEIGHT = 960
 
 pygame.mixer.init()
 pygame.font.init()

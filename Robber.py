@@ -5,7 +5,7 @@ from Constants import TILE_SIZE
 color = pygame.Color(0, 0, 0, 255)
 width = TILE_SIZE
 height = TILE_SIZE
-scale = 4
+scale = 2
 
 class Robber(pygame.sprite.Sprite):
 
@@ -78,6 +78,7 @@ class Robber(pygame.sprite.Sprite):
 		if self.rect.x == self.nextx and self.rect.y == self.nexty:
 			x = int(self.nextx / TILE_SIZE)
 			y = int(self.nexty / TILE_SIZE)
+
 			robbermap[y][x] = '_'
 
 			if robbermap[y + 1][x] == 'R':
