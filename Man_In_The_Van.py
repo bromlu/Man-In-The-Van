@@ -45,15 +45,15 @@ while not done:
             keys_pressed.remove(event.key)
         if event.type == pygame.MOUSEBUTTONDOWN:
             clickedOnObject = False
-            for camera in objectmap1.sprites():
-                if camera.rect.collidepoint(event.pos):
-                    selected = camera
+            for object in objectmap1.sprites():
+                if object.rect.collidepoint(event.pos):
+                    selected = object
                     clickedOnObject = True
             if not clickedOnObject:
                 selected = None
 
     if selected:
-        selected.update(keys_pressed)
+        selected.update(keys_pressed, tilemap1)
 
     # update and draw
     surface.fill((0, 0, 0))

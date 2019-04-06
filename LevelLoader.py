@@ -3,6 +3,7 @@ with contextlib.redirect_stdout(None): import pygame
 
 from Tiles import WallTile, FloorTile
 from Camera import Camera
+from Robot import Robot
 
 width = 24
 height = 24
@@ -38,6 +39,11 @@ def loadLevel(levelText):
 			camera.rect.x = col * 10
 			camera.rect.y = row * 10
 			objectmap.add(camera)
+		if(data[i][0] == 'M'):
+			robot = Robot()
+			robot.rect.x = col * 10
+			robot.rect.y = row * 10
+			objectmap.add(robot)
 
 		if data[i][1] == 'W':
 			tile = WallTile()
