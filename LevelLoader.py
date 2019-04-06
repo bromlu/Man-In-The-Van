@@ -11,15 +11,15 @@ height = 24
 
 def makeCamera(data, i, col, row):
 	walls = [
-		data[i-width-1][1] == 'W',
-		data[i-width][1] == 'W',
-		data[i-width+1][1] == 'W',
-		data[i-1][1] == 'W',
+		int(data[i-width-1][1]) % 2 == 1,
+		int(data[i-width][1]) % 2 == 1,
+		int(data[i-width+1][1]) % 2 == 1,
+		int(data[i-1][1]) % 2 == 1,
 		False,
-		data[i+1][1] == 'W',
-		data[i+width-1][1] == 'W',
-		data[i+width][1] == 'W',
-		data[i+width+1][1] == 'W',
+		int(data[i+1][1]) % 2 == 1,
+		int(data[i+width-1][1]) % 2 == 1,
+		int(data[i+width][1]) % 2 == 1,
+		int(data[i+width+1][1]) % 2 == 1,
 	]
 
 	rotation = 0
@@ -117,15 +117,12 @@ def loadLevel(levelText):
 			robots.add(robot)
 			pass
 
-		if data[i][1] == 'W':
-			tile = WallTile()
-			tile.rect.x = col * TILE_SIZE
-			tile.rect.y = row * TILE_SIZE
+		tileNum = int(data[i][1])
+		if tileNum % 2 == 1:
+			tile = WallTile((col * TILE_SIZE, row * TILE_SIZE), tileNum)
 			walls.add(tile)
-		elif data[i][1] == 'F':
-			tile = FloorTile()
-			tile.rect.x = col * TILE_SIZE
-			tile.rect.y = row * TILE_SIZE
+		elif tileNum % 2 == 0:
+			tile = FloorTile((col * TILE_SIZE, row * TILE_SIZE), tileNum)
 			floors.add(tile)
 
 	robbermap[ry][rx] = '_'

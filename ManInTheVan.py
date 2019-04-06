@@ -62,21 +62,20 @@ while not done:
 	
 	robber.move(robbermap1)
 
-	for object in cameras1.sprites():
-		if(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2))):
-			print("SEEN!")
-
 	# update and draw
 	surface.fill((0, 0, 0))
 	floors1.draw(surface)
 	robots1.draw(surface)
 	robbers.draw(surface)
 	for object in cameras1.sprites():
-		pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(247, 238, 69,100))
+		if not object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2)):
+			pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(89, 211, 255,50))
+		else: 
+			pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(180, 0, 0,50))
 	cameras1.draw(surface)
 	walls1.draw(surface)
 	if selected:
-		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 0, 0, 100))
+		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 100, 16, 100))
 	pygame.display.update()
 
 pygame.quit()

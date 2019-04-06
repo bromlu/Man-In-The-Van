@@ -8,7 +8,7 @@ class Robot(pygame.sprite.Sprite):
 	def __init__(self, pos):
 		pygame.sprite.Sprite.__init__(self)
 
-		self.image = pygame.image.load("assets/white-rumba-nice.png")
+		self.image = pygame.image.load("assets/rumba-dark-small.png")
 		self.image = pygame.transform.scale(self.image, (TILE_SIZE, TILE_SIZE))
 
 		self.orig_image = self.image
