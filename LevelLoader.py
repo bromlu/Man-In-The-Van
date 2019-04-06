@@ -14,16 +14,16 @@ def makeCamera(data, i, col, row):
 	maxRotation = 90
 	if data[i-width][1] == 'W':
 		rotation = 90
-		minRotation = 0
-		maxRotation = 180
-	elif data[i+width][1] == 'W':
-		rotation = 270
-		minRotation = 180
-		maxRotation = 360
-	elif data[i+1][1] == 'W':
+		minRotation += 90
+		maxRotation += 90
+	if data[i+1][1] == 'W':
 		rotation = 180
-		minRotation = 90
-		maxRotation = 270
+		minRotation += 90
+		maxRotation += 90
+	if data[i+width][1] == 'W':
+		rotation = 270
+		minRotation += 90
+		maxRotation += 90
 	return Camera((col * 50, row * 50), rotation, minRotation, maxRotation)
 
 def loadLevel(levelText):

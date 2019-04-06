@@ -6,9 +6,11 @@ import time
 
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
+import pygame.gfxdraw
 
 from LevelLoader import loadLevel
 from Robber import Robber
+from Camera import Camera
 
 WIDTH = 1200
 HEIGHT = 800
@@ -58,15 +60,20 @@ while not done:
 	
 	robber.move(robbermap1)
 
+	for object in objectmap1.sprites():
+		if hasattr(object, 'isSeen'):
+			print(object.isSeen((robber.rect.x + robber.rect.width / 2, robber.rect.y + robber.rect.height / 2)))
+
 	# update and draw
 	surface.fill((0, 0, 0))
 	spritemap1.draw(surface)
 	objectmap1.draw(surface)
 	robbers.draw(surface)
 	if selected:
-		see_through = pygame.Surface((selectedRect.width,selectedRect.height)).convert_alpha()
-		see_through.fill(pygame.Color(255, 0, 0, 20))
-		screen.blit(see_through, selectedRect)
+		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 0, 0, 100))
+	for object in objectmap1.sprites():
+		if hasattr(object, 'getLightCone'):
+			pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(247, 238, 69,100))
 	pygame.display.update()
 
 pygame.quit()

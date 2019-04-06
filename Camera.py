@@ -1,4 +1,5 @@
 import contextlib
+import math
 with contextlib.redirect_stdout(None): import pygame
 from pygame import Vector2
 
@@ -14,6 +15,8 @@ class Camera(pygame.sprite.Sprite):
         self.offset = Vector2(16, 0)
         self.rect = self.image.get_rect(center=pos+self.offset)
         self.angle = rotation
+        self.fov = 30
+        self.dist = 400
         self.minRotation = minRotation
         self.maxRotation = maxRotation
         self.width = self.rect.width
@@ -42,3 +45,25 @@ class Camera(pygame.sprite.Sprite):
             self.rotate()
             # self.image = self.rot_center(self.original_image, self.angle)
 
+    def getLightCone(self, segments=6):
+        fov, dist = self.fov, self.dist
+        cx, cy = self.rect.center
+        angs = [(self.angle + (s/(segments-1) - 0.5) * fov) * math.pi / 180 for s in range(segments)]
+        result = [(cx, cy)] + [
+            (cx + dist * math.cos(a), cy + dist * math.sin(a))
+            for a in angs
+        ]
+        return result
+
+    def isSeen(self, pos):
+        cx,cy = self.rect.center
+        px,py = pos
+        rx,ry = px-cx, py-cy
+        d2 = rx*rx + ry*ry
+        ang = (math.atan2(ry, rx) * 180 / math.pi) % 360
+        rang = abs(ang - self.angle % 360)
+        if rang > 180: rang = abs(360 - rang)
+        in_fov = rang < self.fov / 2
+        close = d2 < self.dist * self.dist
+        #print(rang, d2, in_fov, close)
+        return in_fov and close
