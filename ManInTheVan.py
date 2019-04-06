@@ -9,11 +9,9 @@ with contextlib.redirect_stdout(None): import pygame
 import pygame.gfxdraw
 import math
 
+from Constants import *
 from Menu import Menu
 from Game import Game
-
-WIDTH = 960
-HEIGHT = 720
 
 pygame.mixer.init()
 pygame.font.init()

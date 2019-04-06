@@ -11,6 +11,8 @@ import pygame.gfxdraw
 from LevelLoader import loadLevel
 from Robber import Robber
 from Camera import Camera
+from Font import *
+from Constants import *
 
 
 
@@ -65,6 +67,7 @@ class Game():
 
 		if pygame.sprite.groupcollide(self.robbers, self.lazers, False, False):
 			print("KILLED")
+		# self.drawDialogBox(screen, "Hey there! imani how are you doing today are you enjoying gamejam? I sure am i miss tim though ey there! imani how are you doing today are you enjoying gamejam? I sure am i miss tim though", 200, 200)
 		
 		for lazer in self.lazers.sprites():
 			collidingRobots = pygame.sprite.spritecollide(lazer, self.robots, False)
@@ -76,4 +79,21 @@ class Game():
 		for robot in self.robots.sprites():
 			robot.update1()
 
+	def drawDialogBox(self, screen, string, x, y):
+		size = 24
+		maxWidth = WIDTH/4*5
+		yOffset = 0
+		length = len(string) * size
+		height = int(max(length/maxWidth * (size + 5), size+5))
+		width = int(min(length, maxWidth))
+		pygame.gfxdraw.filled_ellipse(screen, int(x + width/4), int(y + height), int(width/3), height*2, pygame.Color(255, 255, 255, 255))
+		while length > maxWidth:
+			breakPoint = string.find(' ', int(maxWidth/size))
+			newString = string[:breakPoint]
+			string = string[breakPoint:]
+			yOffset += size + 5
+			tlprint(screen, newString, size, pygame.Color(0,0,0), x, y + yOffset)
+			length = len(string) * size
+		yOffset += size
+		tlprint(screen, string, size, pygame.Color(0,0,0), x, y + yOffset)
 
