@@ -1,6 +1,7 @@
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
 from Constants import TILE_SIZE
+import time
 
 color = pygame.Color(0, 0, 0, 255)
 width = TILE_SIZE
@@ -39,6 +40,9 @@ class Robber(pygame.sprite.Sprite):
 		]
 
 		self.animationIndex = 0
+		self.animationSpeed = 1.0/10.0
+		self.last = 0
+		self.speed = 1
 
 		self.rect = self.image.get_rect()
 		self.x = x
@@ -69,37 +73,45 @@ class Robber(pygame.sprite.Sprite):
 				self.nexty = y * TILE_SIZE
 		else:
 			if self.nextx > self.rect.x:
-				self.rect.x += 5
+				self.rect.x += self.speed
 				self.walkRight()
 			elif self.nextx < self.rect.x:
-				self.rect.x -= 5
+				self.rect.x -= self.speed
 				self.walkLeft()
 			if self.nexty > self.rect.y:
-				self.rect.y += 5
+				self.rect.y += self.speed
 				self.walkDown()
 			elif self.nexty < self.rect.y:
-				self.rect.y -= 5
+				self.rect.y -= self.speed
 				self.walkUp()
 
 	def walkRight(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
 		self.image.blit(self.spriteSheetRight, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
 		self.animationIndex = self.animationIndex % 7
 
 	def walkDown(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
 		self.image.blit(self.spriteSheetDown, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
 		self.animationIndex = self.animationIndex % 7
 
 	def walkLeft(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
 		self.image.blit(self.spriteSheetLeft, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
 		self.animationIndex = self.animationIndex % 7
 
 	def walkUp(self):
+		if time.time() - self.last < self.animationSpeed: return
+		self.last = time.time()
 		self.image.fill((100,100,100))
 		self.image.blit(self.spriteSheetUp, (0,0), self.animations[self.animationIndex])
 		self.animationIndex += 1
