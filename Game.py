@@ -48,6 +48,7 @@ class Game():
 		self.floors.draw(surface)
 		self.robots.draw(surface)
 		self.robbers.draw(surface)
+		self.lazers.draw(surface)
 		
 		for object in self.cameras.sprites():
 			if not object.isSeen((self.robber.rect.x + self.robber.rect.width / 2, self.robber.rect.y + self.robber.rect.height /2)):
