@@ -47,10 +47,14 @@ while not done:
 			clickedOnObject = False
 			for object in objectmap1.sprites():
 				if object.rect.collidepoint(event.pos):
+					if selected: 
+						selected.image.fill(pygame.Color(255, 0, 0, 0))
 					selected = object
+					selected.image.fill(pygame.Color(255, 255, 0, 0))
 					clickedOnObject = True
-			if not clickedOnObject:
-				selected = None
+				if not clickedOnObject and selected:
+					selected.image.fill(pygame.Color(255, 0, 0, 0))
+					selected = None
 
 	if selected:
 		selected.update(keys_pressed, tilemap1)
