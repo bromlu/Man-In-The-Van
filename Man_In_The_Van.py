@@ -47,13 +47,12 @@ while not done:
 			clickedOnObject = False
 			for object in objectmap1.sprites():
 				if object.rect.collidepoint(event.pos):
-					if selected: 
-						selected.image.fill(pygame.Color(255, 0, 0, 0))
+					selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
+					print(object.width)
+					print(object.height)
 					selected = object
-					selected.image.fill(pygame.Color(255, 255, 0, 0))
 					clickedOnObject = True
 				if not clickedOnObject and selected:
-					selected.image.fill(pygame.Color(255, 0, 0, 0))
 					selected = None
 
 	if selected:
@@ -66,6 +65,10 @@ while not done:
 	spritemap1.draw(surface)
 	objectmap1.draw(surface)
 	robbers.draw(surface)
+	if selected:
+		see_through = pygame.Surface((selectedRect.width,selectedRect.height)).convert_alpha()
+		see_through.fill(pygame.Color(255, 0, 0, 20))
+		screen.blit(see_through, selectedRect)
 	pygame.display.update()
 
 pygame.quit()

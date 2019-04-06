@@ -11,7 +11,7 @@ class WallTile(pygame.sprite.Sprite):
 
        # Create an image of the block, and fill it with a color.
        # This could also be an image loaded from the disk.
-       self.image = pygame.Surface([40, 40])
+       self.image = pygame.Surface([50, 50])
        self.image.fill(pygame.Color(240,240,240,0))
 
        # Fetch the rectangle object that has the dimensions of the image
@@ -28,7 +28,7 @@ class FloorTile(pygame.sprite.Sprite):
 
        # Create an image of the block, and fill it with a color.
        # This could also be an image loaded from the disk.
-       self.image = pygame.Surface([40, 40])
+       self.image = pygame.Surface([50, 50])
        self.image.fill(pygame.Color(140,140,140,255))
 
        # Fetch the rectangle object that has the dimensions of the image

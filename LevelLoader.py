@@ -8,6 +8,24 @@ from Robot import Robot
 width = 24
 height = 24
 
+def makeCamera(data, i, col, row):
+	rotation = 0
+	minRotation = -90
+	maxRotation = 90
+	if data[i-width][1] == 'W':
+		rotation = 90
+		minRotation = 0
+		maxRotation = 180
+	elif data[i+width][1] == 'W':
+		rotation = 270
+		minRotation = 180
+		maxRotation = 360
+	elif data[i+1][1] == 'W':
+		rotation = 180
+		minRotation = 90
+		maxRotation = 270
+	return Camera((col * 50, row * 50), rotation, minRotation, maxRotation)
+
 def loadLevel(levelText):
 	file = open(levelText, "r" )
 	data = file.read().replace("\n", " ").split(" ")
@@ -35,22 +53,19 @@ def loadLevel(levelText):
 		tilemap[row].append(data[i][1])
 
 		if(data[i][0] == 'C'):
-			camera = Camera()
-			camera.rect.x = col * 10
-			camera.rect.y = row * 10
-			objectmap.add(camera)
+			objectmap.add(makeCamera(data, i, col, row))
 		if(data[i][0] == 'M'):
 			robot = Robot()
-			robot.rect.x = col * 10
-			robot.rect.y = row * 10
+			robot.rect.x = col * 50
+			robot.rect.y = row * 50
 			objectmap.add(robot)
 
 		if data[i][1] == 'W':
 			tile = WallTile()
 		elif data[i][1] == 'F':
 			tile = FloorTile()
-		tile.rect.x = col * 10
-		tile.rect.y = row * 10
+		tile.rect.x = col * 50
+		tile.rect.y = row * 50
 		spritemap.add(tile)
 
 	robbermap[ry][rx] = '_'
