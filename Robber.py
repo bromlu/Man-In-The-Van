@@ -21,10 +21,10 @@ class Robber(pygame.sprite.Sprite):
 		# Fetch the rectangle object that has the dimensions of the image
 		# Update the position of this object by setting the values of rect.x and rect.y
 		self.rect = self.image.get_rect()
-		self.x = x;
-		self.y = y;
-		self.nextx = x * 10;
-		self.nexty = y * 10;
+		self.x = x
+		self.y = y
+		self.nextx = x * 10
+		self.nexty = y * 10
 		self.rect.x = x * 10
 		self.rect.y = y * 10
 
@@ -34,16 +34,16 @@ class Robber(pygame.sprite.Sprite):
 			y = int(self.nexty / 10)
 			robbermap[y][x] = '_'
 
-			if robbermap[y + 1][x] != '_':
+			if robbermap[y + 1][x] == 'R':
 				self.nextx = x * 10
 				self.nexty = (y + 1) * 10
-			elif robbermap[y][x + 1] != '_':
+			elif robbermap[y][x + 1] == 'R':
 				self.nextx = (x + 1) * 10
 				self.nexty = y * 10
-			elif robbermap[y - 1][x] != '_':
+			elif robbermap[y - 1][x] == 'R':
 				self.nextx = x * 10
 				self.nexty = (y - 1) * 10
-			elif robbermap[y][x - 1] != '_':
+			elif robbermap[y][x - 1] == 'R':
 				self.nextx = (x - 1) * 10
 				self.nexty = y * 10
 		else:
