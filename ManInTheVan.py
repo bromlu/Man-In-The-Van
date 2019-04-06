@@ -22,7 +22,7 @@ pygame.display.set_caption('Man In The Van')
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.display.get_surface()
 
-rx, ry, robbermap1, tilemap1, cameras1, robots1, walls1, floors1 = loadLevel("level1.txt")
+rx, ry, robbermap1, tilemap1, cameras1, robots1, walls1, floors1, lazers1 = loadLevel("level1.txt")
 
 robber = Robber(rx, ry)
 robbers = pygame.sprite.Group()
@@ -74,6 +74,7 @@ while not done:
 			pygame.gfxdraw.filled_polygon(screen, object.getLightCone(), pygame.Color(180, 0, 0,50))
 	cameras1.draw(surface)
 	walls1.draw(surface)
+	lazers1.draw(surface)
 	if selected:
 		pygame.gfxdraw.rectangle(screen, selectedRect, pygame.Color(255, 100, 16, 100))
 	pygame.display.update()
