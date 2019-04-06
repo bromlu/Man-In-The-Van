@@ -49,7 +49,7 @@ while not done:
 			clickedOnObject = False
 			for object in objectmap1.sprites():
 				if object.rect.collidepoint(event.pos):
-					selectedRect = pygame.Rect(object.rect.x, object.rect.y, object.width, object.height)
+					selectedRect = pygame.Rect(object.rect.x + object.selectOffset[0]/4, object.rect.y + object.selectOffset[1]/4, object.width, object.height)
 					selected = object
 					clickedOnObject = True
 				if not clickedOnObject and selected:

@@ -5,7 +5,7 @@ from pygame import Vector2
 
 class Camera(pygame.sprite.Sprite):
 
-    def __init__(self, pos, rotation, minRotation, maxRotation):
+    def __init__(self, pos, rotation, minRotation, maxRotation, multiplier, offset):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/camera.png")
         
@@ -19,6 +19,8 @@ class Camera(pygame.sprite.Sprite):
         self.dist = 400
         self.minRotation = minRotation
         self.maxRotation = maxRotation
+        self.multiplier = multiplier
+        self.selectOffset = offset
         self.width = self.rect.width
         self.height = self.rect.height
         self.rotate()
@@ -33,13 +35,17 @@ class Camera(pygame.sprite.Sprite):
 
     def update(self, keys_pressed, tilemap):
         if pygame.K_LEFT in keys_pressed:
-            self.angle += 5
+            self.angle += 5 * self.multiplier
             if self.angle > self.maxRotation:
                 self.angle = self.maxRotation
+            if self.angle < self.minRotation:
+                self.angle = self.minRotation
             self.rotate()
             # self.image = self.rot_center(self.original_image, self.angle)
         if pygame.K_RIGHT in keys_pressed:
-            self.angle -= 5
+            self.angle -= 5 * self.multiplier
+            if self.angle > self.maxRotation:
+                self.angle = self.maxRotation
             if self.angle < self.minRotation:
                 self.angle = self.minRotation
             self.rotate()

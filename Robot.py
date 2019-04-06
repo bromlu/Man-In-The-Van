@@ -8,7 +8,8 @@ class Robot(pygame.sprite.Sprite):
 
 		self.image = pygame.image.load("assets/white-rumba-nice.png")
 		self.image = pygame.transform.scale(self.image, (50, 50))
-
+		
+		self.selectOffset = (0,0)
 		self.rect = self.image.get_rect()
 		self.width = self.rect.width
 		self.height = self.rect.height
