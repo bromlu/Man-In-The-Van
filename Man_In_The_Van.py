@@ -7,6 +7,7 @@ import time
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
 
+from LevelLoader import loadLevel
 from Robber import Robber
 
 WIDTH = 1200
@@ -19,15 +20,23 @@ pygame.display.set_caption('Man In The Van')
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 surface = pygame.display.get_surface()
 
-keys_pressed = set()
-done = False
+
+
+
 last = 0
-robber = Robber(pygame.Color(255, 255, 255, 0), 200, 200)
+robber = Robber(pygame.Color(255, 255, 255, 0), 20, 20)
 robber.rect.x = 10
 robber.rect.y = 10
-group = pygame.sprite.Group()
-group.add(robber)
+robbers = pygame.sprite.Group()
+robbers.add(robber)
 
+level1 = loadLevel("level1.txt")
+
+
+
+
+keys_pressed = set()
+done = False
 while not done:
     # delay until 1/60th of second
     while time.time() - last < 1/60: pass
@@ -45,7 +54,8 @@ while not done:
 
     # update and draw
     surface.fill((0, 0, 0))
-    group.draw(surface)
+    robbers.draw(surface)
+    level1.draw(surface)
     pygame.display.update()
 
 pygame.quit()
