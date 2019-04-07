@@ -30,7 +30,7 @@ level = Menu()
 levels = [
 	Transition(["You are a Master Thief. Known for your speed and agility. You’d have a pretty impressive wrap sheet, if of course you ever left enough evidence to incriminate yourself. ",
 	"You and your partner-in-crime have traveled the world plundering the obscenely rich. He using his skills to hack even the most securest of systems, and you nimbly slipping through the cracks.",
-	"But on the eve of your biggest job ever, your last job ever, the job that was gonna keep you rich till you died, yeah that job… You trip over your living room rumba, and shatter your ankle.",
+	"But on the eve of your biggest job ever, your last job ever, the job that was gonna keep you rich till you died… You trip over your living room rumba, and shatter your ankle.",
 	"But such a score couldn’t possibly slip out of your grasp, you and your partner had been planning this for over a year. You both know the plan, the risks, the reward. You decide to switch roles, he’ll be the one to go in and you…",
 	"You must become, THE MAN IN THE VAN !"
 ], True),

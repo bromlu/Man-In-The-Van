@@ -18,7 +18,7 @@ white = pygame.Color(255, 255, 255, 255)
 
 class Transition():
 	def __init__(self, dialog, isVan, driving=False):
-		self.pause = 2
+		self.pause = 10
 		self.paused = True
 		self.driving = driving
 		self.current = 0		
@@ -47,10 +47,10 @@ class Transition():
 			jump = False
 			if not self.paused:
 				jump = True
-				self.pause = 2
+				self.pause = 10
 			elif self.pause <= 0:
 				jump = True
-				self.pause = 2
+				self.pause = 10
 
 			if jump:
 				self.current += 1
