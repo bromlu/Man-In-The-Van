@@ -26,6 +26,15 @@ keys_pressed = set()
 done = False
 level = Menu()
 
+levels = [
+	Game("level2.txt"),
+	Game("level2.txt"),
+	Game("level3.txt"),
+	Game("level4.txt"),
+	Game("level5.txt"),
+]
+levelIndex = -1
+
 while not done:
 	state = -2
 	# delay until 1/60th of second
@@ -50,7 +59,10 @@ while not done:
 	if state == -1:
 		level = Menu()
 	elif state == 0:
-		level = Game("level1.txt")
+		print(levelIndex)
+		levelIndex += 1
+		levelIndex % 4
+		level = levels[levelIndex]
 	elif state == 1:
 		done = True
 	

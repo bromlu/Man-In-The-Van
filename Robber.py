@@ -59,16 +59,16 @@ class Robber(pygame.sprite.Sprite):
 
 			robbermap[y][x] = '_'
 
-			if robbermap[y + 1][x] == 'R':
+			if robbermap[y + 1][x] == 'R' or robbermap[y + 1][x] == 'E':
 				self.nextx = x * TILE_SIZE
 				self.nexty = (y + 1) * TILE_SIZE
-			elif robbermap[y][x + 1] == 'R':
+			elif robbermap[y][x + 1] == 'R' or robbermap[y][x + 1] == 'E':
 				self.nextx = (x + 1) * TILE_SIZE
 				self.nexty = y * TILE_SIZE
-			elif robbermap[y - 1][x] == 'R':
+			elif robbermap[y - 1][x] == 'R' or robbermap[y - 1][x] == 'E':
 				self.nextx = x * TILE_SIZE
 				self.nexty = (y - 1) * TILE_SIZE
-			elif robbermap[y][x - 1] == 'R':
+			elif robbermap[y][x - 1] == 'R' or robbermap[y][x - 1] == 'E':
 				self.nextx = (x - 1) * TILE_SIZE
 				self.nexty = y * TILE_SIZE
 		else:
@@ -84,6 +84,11 @@ class Robber(pygame.sprite.Sprite):
 			elif self.nexty < self.rect.y:
 				self.rect.y -= self.speed
 				self.walkUp()
+			x = int(self.nextx / TILE_SIZE)
+			y = int(self.nexty / TILE_SIZE)
+			if robbermap[y][x] == 'E':
+				return True
+		return False
 
 	def walkRight(self):
 		if time.time() - self.last < self.animationSpeed: return

@@ -3,6 +3,7 @@
 import os
 import sys
 import time
+import copy
 
 import contextlib
 with contextlib.redirect_stdout(None): import pygame
@@ -20,6 +21,7 @@ class Game():
 	def __init__(self, level):
 		self.rx, self.ry, self.robbermap, self.tilemap, self.cameras, self.robots, self.walls, self.floors, self.lazers = loadLevel(level)
 
+		self.orig_robbermap = copy.deepcopy(self.robbermap)
 		self.robber = Robber(self.rx, self.ry)
 		self.robbers = pygame.sprite.Group()
 		self.robbers.add(self.robber)
@@ -45,7 +47,9 @@ class Game():
 			self.selectedRect.y = self.selected.rect.y
 			self.selected.update(keys_pressed, self.tilemap)
 
-		self.robber.move(self.robbermap)
+		finished = self.robber.move(self.robbermap)
+		if finished:
+			return 0
 		return -2
 
 	def draw(self, screen, surface):
@@ -84,8 +88,11 @@ class Game():
 			robot.update1()
 
 	def reset(self):
+		self.robbermap = copy.deepcopy(self.orig_robbermap)
 		self.robber.rect.x = self.rx * TILE_SIZE
 		self.robber.rect.y = self.ry * TILE_SIZE
+		self.robber.nextx = self.rx * TILE_SIZE
+		self.robber.nexty = self.ry * TILE_SIZE
 		for robot in self.robots:
 			robot.reset()
 		for camera in self.cameras:
