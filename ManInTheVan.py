@@ -12,8 +12,8 @@ import math
 from Menu import Menu
 from Game import Game
 
-WIDTH = 960
-HEIGHT = 720
+WIDTH = 1152
+HEIGHT = 864
 
 pygame.mixer.init()
 pygame.font.init()
@@ -52,7 +52,7 @@ while not done:
 	if state == -1:
 		level = Menu()
 	elif state == 0:
-		level = Game("level5.txt")
+		level = Game("level6.txt")
 	elif state == 1:
 		done = True
 	

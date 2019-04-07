@@ -40,9 +40,9 @@ class Robber(pygame.sprite.Sprite):
 		]
 
 		self.animationIndex = 0
-		self.animationSpeed = 1.0/10.0
+		self.animationSpeed = 1.0/8.0
 		self.last = 0
-		self.speed = 1
+		self.speed = 2
 
 		self.rect = self.image.get_rect()
 		self.x = x
