@@ -11,31 +11,59 @@ import pygame.gfxdraw
 from Font import *
 from Constants import *
 from BigRobber import BigRobber
+from BigVan import BigVan
 
 options = ["Play", "Quit"]
 white = pygame.Color(255, 255, 255, 255)
 
 class Transition():
-	def __init__(self, dialog):
+	def __init__(self, dialog, isVan, driving=False):
+		self.pause = 2
+		self.paused = True
+		self.driving = driving
 		self.current = 0		
 		self.dialog = dialog	
-		self.robbers = pygame.sprite.Group()
-		self.robbers.add(BigRobber(0,HEIGHT/3))
+		self.sprites = pygame.sprite.Group()
+		if not isVan:
+			self.sprites.add(BigRobber(0,HEIGHT/3))
+		else:
+			self.sprites.add(BigVan(0,HEIGHT/3+ 50))
+
+	def updateSelected(self, event):
+		return -2
 
 	def update(self, keys_pressed):
+		if self.current >= len(self.dialog):
+			self.current = 0
+		if self.driving:
+			self.sprites.sprites()[0].rect.x += 5
 		if pygame.K_RETURN in keys_pressed:
-			self.current += 1
-			print(self.current)
-			print(len(self.dialog))
-			if self.current >= len(self.dialog):
-				print("AHHH")
-				return 0
+
+			if self.paused:
+				self.pause -= 1
+			if self.pause < 0:
+				self.paused = False
+		
+			jump = False
+			if not self.paused:
+				jump = True
+				self.pause = 2
+			elif self.pause <= 0:
+				jump = True
+				self.pause = 2
+
+			if jump:
+				self.current += 1
+				if self.current >= len(self.dialog):
+					return 0
 		return -2
 
 	def draw(self, screen, surface):
+		if self.current >= len(self.dialog):
+			return
 		cxprint(screen, surface, "Press Enter to continue", 80, white, HEIGHT-80)
 		self.drawDialogBox(screen, self.dialog[self.current], 200, 200)
-		self.robbers.draw(surface)
+		self.sprites.draw(surface)
 
 	def drawDialogBox(self, screen, string, x, y):
 		size = 24
