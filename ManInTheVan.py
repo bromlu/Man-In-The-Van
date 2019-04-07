@@ -44,6 +44,9 @@ levels = [
 	Game("level3.txt"),
 	Game("level4.txt"),
 	Game("level5.txt"),
+	Game("level6.txt"),
+	Game("level7.txt"),
+	Game("level8.txt"),
 	Transition(["I found the safe!! Head to the pick up point!"], False),
 	Transition(["Drive man DRIVE ! !", "THE END"], True, True),
 	Menu()
