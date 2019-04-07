@@ -13,6 +13,7 @@ class Robot(pygame.sprite.Sprite):
 
 		self.orig_image = self.image
 		self.pos = Vector2(pos)  # The original center position/pivot point.
+		self.orig_vector = Vector2(pos)
 		self.offset = Vector2(0, 0)
 		self.rect = self.image.get_rect(center=pos+self.offset)
 		self.angle = 0
@@ -65,6 +66,15 @@ class Robot(pygame.sprite.Sprite):
 		if(int(tilemap[y1][x1]) % 2 == 1 or int(tilemap[y2][x2]) % 2 == 1 or int(tilemap[y3][x3]) % 2 == 1 or int(tilemap[y4][x4]) % 2 == 1):
 			return False
 		return True
+
+	def reset(self):
+		self.offset = Vector2(0, 0)
+		self.rect = self.image.get_rect(center=self.orig_vector+self.offset)
+		self.rect.x = self.orig_vector.x
+		self.rect.y = self.orig_vector.y
+		self.pos.x = self.orig_vector.x
+		self.pos.y = self.orig_vector.y
+		self.angle = 0
 
 
 
