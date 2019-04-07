@@ -22,6 +22,10 @@ class Robot(pygame.sprite.Sprite):
 		self.width = self.rect.width
 		self.height = self.rect.height
 		self.speed = 10
+		
+		self.held = False
+		self.audio = pygame.mixer.Sound("assets/audio/soundFX/Moving Robotmachine_1 (1).wav")
+		#self.selectAudio = pygame.mixer.Sound("assets/audio/soundFX/robot_select.mp3")
 
 	def rotate(self):
 		self.image = pygame.transform.rotozoom(self.orig_image, -self.angle, 1)
@@ -33,6 +37,14 @@ class Robot(pygame.sprite.Sprite):
 		self.rotate()
 
 	def update(self, keys_pressed, tilemap):
+		if pygame.K_UP in keys_pressed or pygame.K_RIGHT in keys_pressed or pygame.K_DOWN in keys_pressed or pygame.K_LEFT in keys_pressed:
+			if not self.held:
+				self.audio.play()
+				self.held = True
+		else:
+			self.audio.stop()
+			self.held = False
+
 		if pygame.K_UP in keys_pressed and self.checkBounds(tilemap, self.rect.x, self.rect.y - self.speed):
 			self.angle = 0 - 30
 			self.rotate()

@@ -25,6 +25,8 @@ class Camera(pygame.sprite.Sprite):
 		self.width = self.rect.width
 		self.height = self.rect.height
 		self.rotate()
+		self.held = False
+		self.audio = pygame.mixer.Sound("assets/audio/soundFX/Moving Cameracamera_rewind.wav")
 
 	def rotate(self):
 		self.image = pygame.transform.rotozoom(self.orig_image, -self.angle, 1)
@@ -32,6 +34,14 @@ class Camera(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect(center=self.pos+offset_rotated)
 
 	def update(self, keys_pressed, tilemap):
+		if pygame.K_LEFT in keys_pressed or pygame.K_RIGHT in keys_pressed:
+			if not self.held:
+				self.audio.play()
+				self.held = True
+		else:
+			self.audio.stop()
+			self.held = False
+
 		if pygame.K_LEFT in keys_pressed:
 			self.angle += 5 * self.multiplier
 			if self.angle > self.maxRotation:

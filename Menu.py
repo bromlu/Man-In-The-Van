@@ -20,6 +20,8 @@ class Menu():
 		self.current = 0
 		self.pause = 0
 		self.paused = False
+		pygame.mixer.music.load("assets/audio/music/Lynx - Espionage.mp3")
+		pygame.mixer.music.play(-1)
 
 	def updateSelected(self, event):
 		if event.type == pygame.MOUSEMOTION:
@@ -36,6 +38,12 @@ class Menu():
 
 	def update(self, keys_pressed):
 		if pygame.K_RETURN in keys_pressed:
+			pygame.mixer.music.stop()
+
+			if self.current == 0:
+				pygame.mixer.music.load("assets/audio/music/Curie - curious.mp3")
+				pygame.mixer.music.play(-1)
+
 			return self.current
 
 		if self.paused:
